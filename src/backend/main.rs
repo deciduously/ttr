@@ -19,28 +19,19 @@ mod db;
 mod models;
 mod schema;
 
-use actix::Addr;
+use actix::{Addr, SyncArbiter};
 use actix_web::{
     middleware::{self, cors::Cors},
     server::HttpServer,
-    App, AsyncResponder, HttpRequest, HttpResponse,
+    App, AsyncResponder, HttpResponse, State,
 };
-use db::DbExecutor;
-use diesel::{prelude::*, r2d2::ConnectionManager};
+use db::{DbExecutor, establish_connection_manager};
+
 use futures::{future::result, Future};
 use std::env::{var, set_var};
 
 struct AppState {
     db: Addr<DbExecutor>,
-}
-
-fn establish_connection() -> ConnectionManager<PgConnection> {
-    dotenv().ok();
-
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
-    ConnectionManager::new(PgConnection::establish(&database_url)
-        .expect(&format!("Error connecting to {}", database_url)))
 }
 
 // Start env_logger - for now, change this number to change log level
@@ -78,11 +69,9 @@ fn serve() -> Result<(), String> {
 
     // actix setup
     let sys = actix::System::new("mifkad");
-    let addr = "127.0.0.1:8080";
+    let url = "127.0.0.1:8080";
 
-    let db_url = var("DATABASE_URL").expect("DATABASE_URL mustt be set in .env");
-
-    let manager = establish_connection();
+    let manager = establish_connection_manager();
     let pool = r2d2::Pool::builder()
         .build(manager)
         .expect("Failed to create pool.");
@@ -102,10 +91,10 @@ fn serve() -> Result<(), String> {
                         .register()
                 }
             }).middleware(middleware::Logger::default())
-    }).bind(addr)
+    }).bind(url)
     .unwrap()
     .start();
-    info!("Server initialized at {}", addr);
+    info!("Server initialized at {}", url);
     let _ = sys.run();
     Ok(())
 }
