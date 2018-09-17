@@ -29,9 +29,9 @@ use actix_web::{
     server::HttpServer,
     App, AsyncResponder, FutureResponse, HttpResponse, Path, State,
 };
-use db::{CreateGame, DbExecutor, establish_connection_manager};
+use db::{establish_connection_manager, CreateGame, DbExecutor};
 use futures::Future;
-use std::env::{var, set_var};
+use std::env::{set_var, var};
 
 struct AppState {
     db: Addr<DbExecutor>,
@@ -57,15 +57,21 @@ fn init_logging(level: u64) -> Result<(), String> {
     pretty_env_logger::init();
     info!(
         "Set verbosity to {}",
-        var("RUST_LOG").unwrap_or("Could not read RUST_LOG".to_string()));
+        var("RUST_LOG").unwrap_or_else(|_| "Could not read RUST_LOG".to_string())
+    );
     Ok(())
 }
 
 fn new_game((name, state): (Path<String>, State<AppState>)) -> FutureResponse<HttpResponse> {
-    state.db.send(CreateGame { name: name.into_inner()}).from_err().and_then(|res| match res {
-        Ok(game) => Ok(HttpResponse::Ok().json(game)),
-        Err(_) => Ok(HttpResponse::InternalServerError().into())
-    }).responder()
+    state
+        .db
+        .send(CreateGame {
+            name: name.into_inner(),
+        }).from_err()
+        .and_then(|res| match res {
+            Ok(game) => Ok(HttpResponse::Ok().json(game)),
+            Err(_) => Ok(HttpResponse::InternalServerError().into()),
+        }).responder()
 }
 
 fn serve() -> Result<(), String> {

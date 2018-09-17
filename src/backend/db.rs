@@ -1,7 +1,11 @@
 //! Db executor actor
 use actix::prelude::*;
-use actix_web::{Error, Result, error};
-use diesel::{self, prelude::*, r2d2::{ConnectionManager, Pool}};
+use actix_web::{error, Error, Result};
+use diesel::{
+    self,
+    prelude::*,
+    r2d2::{ConnectionManager, Pool},
+};
 use dotenv::dotenv;
 use std::env::var;
 use uuid;
@@ -12,9 +16,8 @@ use schema;
 pub fn establish_connection_manager() -> ConnectionManager<PgConnection> {
     dotenv().ok();
 
-    let database_url = var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
-    
+    let database_url = var("DATABASE_URL").expect("DATABASE_URL must be set");
+
     ConnectionManager::new(database_url)
 }
 
