@@ -54,13 +54,13 @@ impl Handler<CreateGame> for DbExecutor {
         diesel::insert_into(games)
             .values(&new_game)
             .execute(conn)
-            .map_err(|_| error::ErrorInternalServerError("Error inserting person"))?;
+            .map_err(|_| error::ErrorInternalServerError("Error inserting game"))?;
 
-        let mut items = games
+        let mut g = games
             .filter(id.eq(&uuid))
             .load::<models::Game>(conn)
-            .map_err(|_| error::ErrorInternalServerError("Error loading person"))?;
+            .map_err(|_| error::ErrorInternalServerError("Error loading game"))?;
 
-        Ok(items.pop().unwrap())
+        Ok(g.pop().unwrap())
     }
 }

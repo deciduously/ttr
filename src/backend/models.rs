@@ -1,6 +1,6 @@
 use super::schema::games;
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize)]
 pub struct Game {
     pub id: String,
     pub playername: String,
