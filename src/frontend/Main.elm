@@ -47,7 +47,6 @@ defaultModel : Model
 defaultModel =
     { player = { name = "Ben", chutzpah = 0 }, currentTile = { id = "0", name = "Ship" } }
 
-
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( defaultModel
@@ -120,7 +119,7 @@ view model =
 
 getNewGame : Cmd Msg
 getNewGame =
-    Http.send NewGame (Http.get "http://127.0.0.1:8080/game" gameDecoder)
+    Http.send NewGame (Http.get "http://127.0.0.1:8080/new/Player1" gameDecoder)
 
 
 playerDecoder : Decoder Player
