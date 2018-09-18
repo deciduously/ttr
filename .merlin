@@ -1,0 +1,11 @@
+####{BSB GENERATED: NO EDIT
+FLG -ppx /home/ben/code/ttr/node_modules/bs-platform/lib/bsppx.exe
+S /home/ben/code/ttr/node_modules/bs-platform/lib/ocaml
+B /home/ben/code/ttr/node_modules/bs-platform/lib/ocaml
+FLG -nostdlib -color always -w -40+6+7+27+32..39+44+45 -w @8 -color always
+FLG -w -30-40+6+7+27+32..39+44+45+101
+S /home/ben/code/ttr/node_modules/bucklescript-tea/lib/ocaml
+B /home/ben/code/ttr/node_modules/bucklescript-tea/lib/ocaml
+S src/frontend
+B lib/bs/src/frontend
+####BSB GENERATED: NO EDIT}

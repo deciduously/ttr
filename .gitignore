@@ -1,4 +1,5 @@
 /target
-/elm-stuff
 .env
 /node_modules
+/lib
+**/*.bs.js
