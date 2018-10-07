@@ -1,10 +1,10 @@
 import { h, render } from 'preact';
 import App from './components/App';
-import { AppState } from './store/AppState';
+import { AppStore } from './store/AppStore';
 
-const store = new AppState();
+const store = new AppStore();
 
 render(
   <App store={store} />,
-  document.querySelector('#app')
+  document.querySelector('#app') as HTMLElement
 );

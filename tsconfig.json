@@ -5,6 +5,7 @@
     "outDir": "./dist/",
     "module": "commonjs",
     "noImplicitAny": false,
+    "strict": true,
     "experimentalDecorators": true,
     "removeComments": true,
     "sourceMap": true,

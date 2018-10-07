@@ -1,9 +1,10 @@
 import { Component, h } from 'preact';
 import { observer } from 'mobx-preact';
-import { AppState } from '../store/AppState';
+import { AppStore } from '../store/AppStore';
+import NewGame from './NewGame';
 
 export interface AppProps {
-  store: AppState
+  store: AppStore;
 }
 
 @observer
@@ -13,10 +14,10 @@ export default class App extends Component<AppProps> {
       <div>
         <h1>Take the ROCK</h1>
         <h2>The BEGINNING</h2>
-        <p>{'Name: ' + props.store.getName}</p>
-        <p>{'Chutzpah: ' + props.store.getChutzpah}</p>
-        <p>{'Standing on tile: ' + props.store.getCurrentTile}</p>
-        <button onClick={_ => props.store.newGame('defaultName')}>New Game</button>
-      </div>);
+        {(props.store.isActive) ? <NewGame store={props.store} /> :
+          <div><p>{'Name: ' + props.store.getName}</p>
+            <p>{'Chutzpah: ' + props.store.getChutzpah}</p>
+            <p>{'Standing on tile: ' + props.store.getCurrentTile}</p></div>}
+      </div>)
   }
 }

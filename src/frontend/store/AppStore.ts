@@ -16,13 +16,16 @@ export class Game {
   }
 }
 
-export class AppState {
+export class AppStore {
   @observable game?: Game;
   constructor() {
     // instead of setting game to undefined or null or whatever, do nothing
   }
+  @computed get isActive(): boolean {
+    return this.game == null
+  }
   @computed get getName(): string {
-    return this.game ? this.game.getPlayerName : "No active game"; // write a wrapper fn?
+    return this.game ? this.game.getPlayerName : "No active game";
   }
   @computed get getChutzpah(): number {
     return this.game ? this.game.chutzpah : -1;
