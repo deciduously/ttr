@@ -25,6 +25,7 @@ mod schema;
 
 use actix::{Addr, SyncArbiter};
 use actix_web::{
+    fs::StaticFiles,
     middleware::{self, cors::Cors},
     server::HttpServer,
     App, AsyncResponder, FutureResponse, HttpResponse, Path, State,
@@ -67,11 +68,13 @@ fn new_game((name, state): (Path<String>, State<AppState>)) -> FutureResponse<Ht
         .db
         .send(CreateGame {
             name: name.into_inner(),
-        }).from_err()
+        })
+        .from_err()
         .and_then(|res| match res {
             Ok(game) => Ok(HttpResponse::Ok().json(game)),
             Err(_) => Ok(HttpResponse::InternalServerError().into()),
-        }).responder()
+        })
+        .responder()
 }
 
 fn serve() -> Result<(), String> {
@@ -90,7 +93,7 @@ fn serve() -> Result<(), String> {
     let addr = SyncArbiter::start(3, move || DbExecutor(pool.clone()));
 
     HttpServer::new(move || {
-        App::with_state(AppState{db: addr.clone()})
+        App::with_state(AppState { db: addr.clone() })
             .configure({
                 |app| {
                     Cors::for_app(app)
@@ -101,8 +104,14 @@ fn serve() -> Result<(), String> {
                         .resource("/new/{name}", |r| r.route().with(new_game))
                         .register()
                 }
-            }).middleware(middleware::Logger::default())
-    }).bind(url)
+            })
+            .handler(
+                "/",
+                StaticFiles::index_file(StaticFiles::new("./dist/").unwrap(), "index.html"),
+            )
+            .middleware(middleware::Logger::default())
+    })
+    .bind(url)
     .unwrap()
     .start();
     info!("Server initialized at {}", url);
