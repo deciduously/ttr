@@ -2,18 +2,9 @@
 
 WIP
 
-Take the Rock.
-
-A casual exploration game, built with Bucklescript-TEA and actix-web
+Take the Rock is a casual incremental game.  It is implemented with `actix-web`` on the backend ond Typescript/Preact/Mobx on the frontend.
 
 # Requirements
 
 * Stable rust
-* `basic-http-server` - `cargo install basic-http-server`
 * yarn
-
-
-
-# Acknowledgements
-
-* [tcoopman](https://github.com/tcoopman)'s [bucklescript-tea starter kit](https://github.com/tcoopman/bucklescript-tea-starter-kit)

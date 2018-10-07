@@ -23,6 +23,6 @@
     "build": "webpack --config webpack.config.js --mode=production",
     "build:dev": "webpack --config webpack.config.js --mode=development",
     "watch": "webpack --config webpack.config.js --mode=development --watch",
-    "start": "cargo watch -x run"
+    "start": "cargo run"
   }
 }

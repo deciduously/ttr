@@ -13,7 +13,9 @@ export default class App extends Component<AppProps> {
       <div>
         <h1>Take the ROCK</h1>
         <h2>The BEGINNING</h2>
-        <p>{props.store.getName}</p>
+        <p>{'Name: ' + props.store.getName}</p>
+        <p>{'Chutzpah: ' + props.store.getChutzpah}</p>
+        <p>{'Standing on tile: ' + props.store.getCurrentTile}</p>
         <button onClick={_ => props.store.newGame('defaultName')}>New Game</button>
       </div>);
   }
