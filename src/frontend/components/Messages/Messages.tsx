@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import { observer } from 'mobx-preact'
+import './Messages.css'
 
 export interface MessagesProps {
     messages: string[];
@@ -7,7 +8,7 @@ export interface MessagesProps {
 
 const Messages = observer((props: MessagesProps) => {
     return (
-        <div>
+        <div class="messages">
             <ul>
                 {props.messages.map(m => <li key={m}>{m}</li>)}
             </ul>
