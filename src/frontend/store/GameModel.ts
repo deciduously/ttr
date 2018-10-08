@@ -1,17 +1,24 @@
 import { action, computed, observable } from "mobx";
+import ActionModel from "./ActionModel";
+import ButtonModel from "./ButtonModel";
 import PlayerModel from "./PlayerModel";
-import TileModel from "./TileModel";
+import TileModel, { defaultWorld } from "./TileModel";
 
 export default class GameModel {
-    public id: string;
-    @observable public messages: string[];
     public player: PlayerModel;
     public world: TileModel[];
+    private id: string;
+    @observable private buttons: ButtonModel[];
+    @observable private messages: string[];
     constructor(id: string, name: string, currentTile: number, chutzpah: number) {
         this.id = id;
         this.player = new PlayerModel(name, chutzpah, currentTile);
-        this.world = [new TileModel(0)];
+        this.world = defaultWorld;
         this.messages = [];
+        this.buttons = [new ButtonModel([new ActionModel("Wait a sec-action!")], "Wait a sec!")];
+    }
+    @computed get visibleButtons(): ButtonModel[] {
+        return this.buttons;
     }
     @computed get messagesLength(): number {
         return this.messages.length;

@@ -48,7 +48,7 @@ impl Handler<CreateGame> for DbExecutor {
         let new_game = models::NewGame {
             id: &uuid,
             playername: &msg.name,
-            chutzpah: 1,
+            chutzpah: 10,
             currenttile: 0,
         };
 

@@ -3,7 +3,7 @@ import { action, computed, observable } from "mobx";
 export default class PlayerModel {
     public currentTile: number;
     public name: string;
-    @observable public chutzpah: number;
+    @observable private chutzpah: number;
     constructor(name: string, chutzpah: number, currentTile: number) {
         this.name = name;
         this.chutzpah = chutzpah;
