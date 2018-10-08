@@ -8,12 +8,14 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "express": "^4.16.3",
     "mobx": "^5.5.0",
-    "mobx-preact": "^3.0.0",
-    "preact": "^8.3.1"
+    "mobx-react": "^5.2.8",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
   },
   "devDependencies": {
+    "@types/react": "^16.4.16",
+    "@types/react-dom": "^16.0.9",
     "css-loader": "^1.0.0",
     "style-loader": "^0.23.0",
     "ts-loader": "^5.2.1",

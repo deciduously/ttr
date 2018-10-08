@@ -10,7 +10,7 @@
     "removeComments": true,
     "sourceMap": true,
     "jsx": "react",
-    "jsxFactory": "h",
+    //"jsxFactory": "h", // still good to have? not sure
   },
   "include": [
     "**/*.ts",

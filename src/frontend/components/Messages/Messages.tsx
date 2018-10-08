@@ -1,5 +1,5 @@
-import { observer } from "mobx-preact";
-import { h } from "preact";
+import { observer } from "mobx-react";
+import * as React from "react";
 import "./Messages.css";
 
 export interface IMessagesProps {
@@ -8,10 +8,10 @@ export interface IMessagesProps {
 
 const Messages = observer((props: IMessagesProps) => {
     return (
-        <div class="messages">
-            <div class="messages-header">Messages</div>
-            <ul class="messages-container">
-                {props.messages.map((m) => <li key={m} class="message">{m}</li>)}
+        <div className="messages">
+            <div className="messages-header">Messages</div>
+            <ul className="messages-container">
+                {props.messages.map((m) => <li key={m} className="message">{m}</li>)}
             </ul>
         </div>
     );

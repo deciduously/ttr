@@ -1,5 +1,5 @@
-import { observer } from "mobx-preact";
-import { Component, h } from "preact";
+import { observer } from "mobx-react";
+import * as React from "react";
 import PlayerModel from "../../store/PlayerModel";
 import "./Player.css";
 
@@ -8,13 +8,13 @@ export interface IPlayerProps {
 }
 
 @observer
-export default class Player extends Component<IPlayerProps> {
-    public render(props: IPlayerProps) {
+export default class Player extends React.Component<IPlayerProps> {
+    public render() {
         return (
-            <div class="Player">
-                <div class="player-header">Player</div>
-                <div class="player-container">{"Name: " + props.player.name}</div>
-                <div class="player-container">{"Chutzpah: " + props.player.getChutzpah}</div>
+            <div className="Player">
+                <div className="player-header">Player</div>
+                <div className="player-container">{"Name: " + this.props.player.name}</div>
+                <div className="player-container">{"Chutzpah: " + this.props.player.getChutzpah}</div>
             </div>
         );
     }

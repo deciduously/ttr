@@ -1,5 +1,5 @@
-import { observer } from "mobx-preact";
-import { Component, h } from "preact";
+import { observer } from "mobx-react";
+import * as React from "react";
 import GameModel from "../../store/GameModel";
 import Controls from "../Controls/Controls";
 import Map from "../Map/Map";
@@ -12,17 +12,17 @@ export interface IGameWindowProps {
 }
 
 @observer
-export default class GameWindow extends Component<IGameWindowProps> {
-    public render(props: IGameWindowProps) {
+export default class GameWindow extends React.Component<IGameWindowProps> {
+    public render() {
         return (
-            <div class="gameWindow">
-                <div class="container">
-                    <Player player={props.game.player} />
-                    <Controls game={props.game} />
-                    <Map tiles={props.game.world} currentTile={props.game.player.currentTile} />
+            <div className="gameWindow">
+                <div className="container">
+                    <Player player={this.props.game.player} />
+                    <Controls game={this.props.game} />
+                    <Map tiles={this.props.game.world} currentTile={this.props.game.player.currentTile} />
                 </div>
-                <div class="container">
-                    <Messages messages={props.game.lastFifteenMessages} />
+                <div className="container">
+                    <Messages messages={this.props.game.lastFifteenMessages} />
                 </div>
             </div>
         );

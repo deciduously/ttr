@@ -2,7 +2,7 @@
 
 WIP
 
-Take the Rock is a casual incremental game.  It is implemented with `actix-web`` on the backend ond Typescript/Preact/Mobx on the frontend.
+Take the Rock is a casual incremental game.  It is implemented in Typescript using React and Mobx on the frontend and actix_web/diesel to connect to a postgres db for saves.
 
 # Requirements
 

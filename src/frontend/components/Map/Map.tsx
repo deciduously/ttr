@@ -1,4 +1,4 @@
-import { Component, h } from "preact";
+import * as React from "react";
 import TileModel from "../../store/TileModel";
 import "./Map.css";
 
@@ -7,11 +7,11 @@ export interface IMapProps {
     currentTile: number;
 }
 
-export default class Map extends Component<IMapProps> {
-    public render(props: IMapProps) {
+export default class Map extends React.Component<IMapProps> {
+    public render() {
         return (
-            <div class="Map">
-                <p>{"Standing on tile: " + props.currentTile}</p>
+            <div className="Map">
+                <p>{"Standing on tile: " + this.props.currentTile}</p>
             </div>
         );
     }

@@ -1,5 +1,5 @@
-import { observer } from "mobx-preact";
-import { Component, h } from "preact";
+import { observer } from "mobx-react";
+import * as React from "react";
 import GameModel from "../../store/GameModel";
 import "./Controls.css";
 
@@ -8,13 +8,13 @@ export interface IControlsProps {
 }
 
 @observer
-export default class Controls extends Component<IControlsProps> {
-    public render(props: IControlsProps) {
+export default class Controls extends React.Component<IControlsProps> {
+    public render() {
         return (
-            <div class="controls">
-                <span class="elapsedTime">{"Elapsed time: " + props.game.currentTime}</span>
-                {props.game.visibleButtons.map((b) =>
-                    <button key={b.text} onClick={(_) => props.game.applyAction(b.actions[0])}>{b.text}</button>,
+            <div className="controls">
+                <span className="elapsedTime">{"Elapsed time: " + this.props.game.currentTime}</span>
+                {this.props.game.visibleButtons.map((b) =>
+                    <button key={b.text} onClick={(_) => this.props.game.applyAction(b.actions[0])}>{b.text}</button>,
                 )}
             </div>
         );
