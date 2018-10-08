@@ -18,7 +18,7 @@ export default class GameWindow extends Component<IGameWindowProps> {
             <div class="gameWindow">
                 <div class="container">
                     <Player player={props.game.player} />
-                    <Controls buttons={props.game.visibleButtons} />
+                    <Controls game={props.game} />
                     <Map tiles={props.game.world} currentTile={props.game.player.currentTile} />
                 </div>
                 <div class="container">

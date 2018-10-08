@@ -13,9 +13,36 @@ An Action will
     AddTile(TileID),\
 */
 
-export default class ActionModel {
-    public name: string;
-    constructor(name: string) {
-        this.name = name;
-    }
+export const ADD_MESSAGE = "ADD_MESSAGE";
+export const NOOP = "NOOP";
+export const WAIT = "WAIT";
+
+export interface IActionAddMessage {
+    actionType: "ADD_MESSAGE";
+    message: string;
 }
+
+export function newActionAddMessage(msg: string): IActionAddMessage {
+    return {
+        actionType: "ADD_MESSAGE",
+        message: msg,
+    };
+}
+
+export interface IActionNoop {
+    actionType: "NOOP";
+}
+
+export interface IActionWait {
+    actionType: "WAIT";
+    millis: number;
+}
+
+export function newActionWait(duration: number): IActionWait {
+    return {
+        actionType: "WAIT",
+        millis: duration,
+    };
+}
+
+export type Action = IActionAddMessage | IActionNoop | IActionWait;

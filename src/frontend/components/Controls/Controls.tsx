@@ -1,18 +1,21 @@
-import { observable } from "mobx-preact";
+import { observer } from "mobx-preact";
 import { Component, h } from "preact";
-import ButtonModel from "../../store/ButtonModel";
+import GameModel from "../../store/GameModel";
 import "./Controls.css";
 
 export interface IControlsProps {
-    buttons: ButtonModel[];
+    game: GameModel;
 }
 
-@observable
+@observer
 export default class Controls extends Component<IControlsProps> {
     public render(props: IControlsProps) {
         return (
             <div class="controls">
-                {props.buttons.map((b) => <button key={b.text}>{b.text}</button>)}
+                <span class="elapsedTime">{"Elapsed time: " + props.game.currentTime}</span>
+                {props.game.visibleButtons.map((b) =>
+                    <button key={b.text} onClick={(_) => props.game.applyAction(b.actions[0])}>{b.text}</button>,
+                )}
             </div>
         );
     }
