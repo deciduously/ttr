@@ -9,8 +9,9 @@ export interface IMessagesProps {
 const Messages = observer((props: IMessagesProps) => {
     return (
         <div class="messages">
-            <ul>
-                {props.messages.map((m) => <li key={m}>{m}</li>)}
+            <div class="messages-header">Messages</div>
+            <ul class="messages-container">
+                {props.messages.map((m) => <li key={m} class="message">{m}</li>)}
             </ul>
         </div>
     );

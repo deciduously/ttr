@@ -12,8 +12,9 @@ export default class Player extends Component<IPlayerProps> {
     public render(props: IPlayerProps) {
         return (
             <div class="Player">
-                <p>{"Name: " + props.player.name}</p>
-                <p>{"Chutzpah: " + props.player.getChutzpah}</p>
+                <div class="player-header">Player</div>
+                <div class="player-container">{"Name: " + props.player.name}</div>
+                <div class="player-container">{"Chutzpah: " + props.player.getChutzpah}</div>
                 <button onClick={(_) => props.player.incrementChutzpah()}>Increment Chutzpah</button>
             </div>
         );
