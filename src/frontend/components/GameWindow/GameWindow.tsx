@@ -1,18 +1,18 @@
-import { Component, h } from 'preact'
-import { observer } from 'mobx-preact'
-import { Game } from '../../store/AppStore'
-import Map from '../Map/Map'
-import Messages from '../Messages/Messages'
-import Player from '../Player/Player'
-import './GameWindow.css'
+import { observer } from "mobx-preact";
+import { Component, h } from "preact";
+import GameModel from "../../store/GameModel";
+import Map from "../Map/Map";
+import Messages from "../Messages/Messages";
+import Player from "../Player/Player";
+import "./GameWindow.css";
 
-export interface GameWindowProps {
-    game: Game
+export interface IGameWindowProps {
+    game: GameModel;
 }
 
 @observer
-export default class GameWindow extends Component<GameWindowProps> {
-    render(props: GameWindowProps) {
+export default class GameWindow extends Component<IGameWindowProps> {
+    public render(props: IGameWindowProps) {
         return (
             <div class="gameWindow">
                 <div class="container">
@@ -23,6 +23,6 @@ export default class GameWindow extends Component<GameWindowProps> {
                     <Messages messages={props.game.lastFifteenMessages} />
                 </div>
             </div>
-        )
+        );
     }
 }

@@ -1,19 +1,19 @@
-import { h } from 'preact'
-import { observer } from 'mobx-preact'
-import './Messages.css'
+import { observer } from "mobx-preact";
+import { h } from "preact";
+import "./Messages.css";
 
-export interface MessagesProps {
+export interface IMessagesProps {
     messages: string[];
 }
 
-const Messages = observer((props: MessagesProps) => {
+const Messages = observer((props: IMessagesProps) => {
     return (
         <div class="messages">
             <ul>
-                {props.messages.map(m => <li key={m}>{m}</li>)}
+                {props.messages.map((m) => <li key={m}>{m}</li>)}
             </ul>
         </div>
-    )
-})
+    );
+});
 
 export default Messages;

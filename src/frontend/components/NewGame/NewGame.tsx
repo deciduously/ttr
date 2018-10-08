@@ -1,22 +1,22 @@
 import { Component, h } from "preact";
-import { AppStore } from '../../store/AppStore';
+import { AppStore } from "../../store/AppStore";
 
-export interface NewGameProps {
+export interface INewGameProps {
     store: AppStore;
 }
 
-interface NewGameState {
-    newPlayerName: string
+interface INewGameState {
+    newPlayerName: string;
 }
 
-export default class NewGame extends Component<NewGameProps, NewGameState> {
-    constructor(props: NewGameProps) {
+export default class NewGame extends Component<INewGameProps, INewGameState> {
+    constructor(props: INewGameProps) {
         super(props);
 
-        this.state = { newPlayerName: 'Super Cool Space Name' }
+        this.state = { newPlayerName: "Super Cool Space Name" };
     }
-    setPlayerName = e => this.setState({ newPlayerName: e.target.value });
-    render(props: NewGameProps, state: NewGameState) {
+
+    public render(props: INewGameProps, state: INewGameState) {
         return (
             <div>
                 <input
@@ -25,10 +25,12 @@ export default class NewGame extends Component<NewGameProps, NewGameState> {
                     value={state.newPlayerName}
                     onInput={this.setPlayerName}>
                 </input>
-                <button onClick={_ => props.store.newGame(state.newPlayerName)}>
-                    {'New Game for player ' + state.newPlayerName}
+                <button onClick={(_) => props.store.newGame(state.newPlayerName)}>
+                    {"New Game for player " + state.newPlayerName}
                 </button>
             </div >
-        )
+        );
     }
+
+    private setPlayerName = (e) => this.setState({ newPlayerName: e.target.value });
 }
