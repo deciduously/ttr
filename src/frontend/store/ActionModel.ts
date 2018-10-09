@@ -35,13 +35,13 @@ export interface IActionNoop {
 
 export interface IActionWait {
     actionType: "WAIT";
-    millis: number;
+    seconds: number;
 }
 
 export function newActionWait(duration: number): IActionWait {
     return {
         actionType: "WAIT",
-        millis: duration,
+        seconds: duration,
     };
 }
 

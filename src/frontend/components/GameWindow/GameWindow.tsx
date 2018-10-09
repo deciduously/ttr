@@ -5,6 +5,7 @@ import Controls from "../Controls/Controls";
 import Map from "../Map/Map";
 import Messages from "../Messages/Messages";
 import Player from "../Player/Player";
+import Resources from "../Resources/Resources";
 import "./GameWindow.css";
 
 export interface IGameWindowProps {
@@ -18,6 +19,7 @@ export default class GameWindow extends React.Component<IGameWindowProps> {
             <div className="gameWindow">
                 <div className="container">
                     <Player player={this.props.game.player} />
+                    <Resources resources={this.props.game.resources} />
                     <Controls game={this.props.game} />
                     <Map tiles={this.props.game.world} currentTile={this.props.game.player.currentTile} />
                 </div>

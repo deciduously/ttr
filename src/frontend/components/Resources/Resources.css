@@ -1,0 +1,15 @@
+.resources {
+    display: flex;
+    flex-direction: column;
+    border-right: dashed 1px #000;
+}
+
+.resources .resources-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.resources .resources-container {
+    display: flex;
+    flex-direction: column;
+}
