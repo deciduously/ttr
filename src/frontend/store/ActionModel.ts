@@ -1,3 +1,5 @@
+import TileModel from "./TileModel";
+
 /*
 An Action will
     AddMessage(String),
@@ -29,6 +31,40 @@ export function newActionAddMessage(msg: string): IActionAddMessage {
     };
 }
 
+export interface IActionAddResource {
+    actionType: "ADD_RESOURCE";
+    resource: string;
+    amt: number;
+}
+
+export function newActionAddResource(resource: string, amt: number): IActionAddResource {
+    return {
+        actionType: "ADD_RESOURCE",
+        resource: resource,
+        amt: amt
+    }
+}
+
+export interface IActionAddResourceDelta {
+    actionType: "ADD_RESOURCE_DELTA"
+    resource: string;
+    delta: number;
+}
+
+// TODO ActionAddResourceDelta
+
+export interface IActionAddTile {
+    actionType: "ADD_TILE";
+    tile: TileModel;
+}
+
+export function newActionAddTile(t: TileModel): IActionAddTile {
+    return {
+        actionType: "ADD_TILE",
+        tile: t,
+    }
+}
+
 export interface IActionNoop {
     actionType: "NOOP";
 }
@@ -45,4 +81,4 @@ export function newActionWait(duration: number): IActionWait {
     };
 }
 
-export type Action = IActionAddMessage | IActionNoop | IActionWait;
+export type Action = IActionAddMessage | IActionAddResource | IActionAddTile | IActionNoop | IActionWait;

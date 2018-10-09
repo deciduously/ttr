@@ -1,15 +1,22 @@
+import { Action, newActionWait, newActionAddResource } from "./ActionModel";
+import ButtonModel from "./ButtonModel";
+
+// A Tile carries with it several things:
+// A set of Actions to trigger when it's added to the game
+// A set of Buttons to add to the players Controls
+// 
+
 export default class TileModel {
     private id: number;
-    private name: string;
-    constructor(id: number, name: string) {
+    public name: string;
+    public actions: Action[];
+    public buttons: ButtonModel[];
+    constructor(id: number, name: string, actions: Action[], buttons: ButtonModel[]) {
         this.id = id;
         this.name = name;
-    }
-    get getName() {
-        return this.name;
+        this.actions = actions;
+        this.buttons = buttons;
     }
 }
 
-export const defaultWorld = [
-    new TileModel(0, "Ship"),
-];
+export const shipTile = new TileModel(0, "Ship", [newActionAddResource("Oxygen", 100)], [new ButtonModel([newActionWait(1)], "Wait one second")]);

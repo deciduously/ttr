@@ -1,14 +1,14 @@
 import { action, computed, observable } from "mobx";
-import { Action, newActionWait } from "./ActionModel";
+import { Action, newActionWait, newActionAddTile } from "./ActionModel";
 import ButtonModel from "./ButtonModel";
 import PlayerModel from "./PlayerModel";
 import ResourceModel from "./ResourceModel";
-import TileModel, { defaultWorld } from "./TileModel";
+import TileModel, { shipTile } from "./TileModel";
 
 export default class GameModel {
     public player: PlayerModel;
-    public resources: ResourceModel[];
-    public world: TileModel[];
+    @observable public resources: ResourceModel[];
+    @observable public world: TileModel[];
     private id: string;
     @observable private elapsedTime: number;
     @observable private buttons: ButtonModel[];
@@ -16,12 +16,13 @@ export default class GameModel {
     constructor(id: string, name: string, currentTile: number, chutzpah: number) {
         this.id = id;
         this.player = new PlayerModel(name, chutzpah, currentTile);
-        this.world = defaultWorld;
+        this.world = [];
         this.messages = [];
-        this.buttons = [new ButtonModel([newActionWait(5)], "Wait five seconds"), new ButtonModel([newActionWait(1)], "Wait one second")];
+        this.buttons = [];
         this.elapsedTime = 0;
-        this.resources = [new ResourceModel("Oxygen", 100)];
-        this.resources[0].setDelta(-1);
+        this.resources = [];
+
+        this.applyAction(newActionAddTile(shipTile));
     }
     @computed get currentTime(): number {
         return this.elapsedTime;
@@ -40,12 +41,23 @@ export default class GameModel {
     // big ol' reducer, redux-style
     @action public applyAction(a: Action) {
         switch (a.actionType) {
-            case "ADD_MESSAGE": this.messages.push(a.message);
+            case "ADD_MESSAGE": { this.messages.push(a.message); break; }
+            case "ADD_RESOURCE": {
+                this.resources.push(new ResourceModel(a.resource, a.amt));
+                break;
+            }
+            case "ADD_TILE": {
+                a.tile.actions.forEach((a) => this.applyAction(a));
+                a.tile.buttons.map((b) => this.buttons.push(b));
+                this.world.push(a.tile);
+                break;
+            };
             case "NOOP": break;
             case "WAIT": {
                 for (var i = 0; i < a.seconds; i++) {
                     this.tick();
                 }
+                break;
             };
         }
     }
