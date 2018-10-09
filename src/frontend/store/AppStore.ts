@@ -1,5 +1,4 @@
 import { action, observable } from "mobx";
-import { newActionAddMessage } from "./ActionModel";
 import GameModel from "./GameModel";
 
 export class AppStore {
@@ -16,10 +15,8 @@ export class AppStore {
                 throw new Error("Network response was not ok");
             }).then((r) => {
                 this.game = new GameModel(r.id, r.playername, r.currenttile, r.chutzpah);
-                this.game.applyAction(newActionAddMessage("Well shit, you crashed."));
             }).catch((e) => {
                 this.game = errorGame;
-                this.game.applyAction(newActionAddMessage("Error connecting to the backend!"));
             });
     }
 }

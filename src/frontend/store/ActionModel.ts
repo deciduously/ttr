@@ -2,17 +2,17 @@ import TileModel from "./TileModel";
 
 /*
 An Action will
-    AddMessage(String),
+    AddMessage(String), - done
     SetBoolFlag(BoolFlag),
     ClearBoolFlag(BoolFlag),
-    SetResourceValue(Resource, i64),
+    SetResourceValue(Resource, i64), - done
     AddResourceValue(Resource, i64),
-    AddResourceDelta(Resource, i64),
+    AddResourceDelta(Resource, i64), - done as Set
     //SetIntFlag(IntFlag, i64),
     //SetFloatFlag(FloatFlag, i64),
-    EnableButton(ButtonID),
+    EnableButton(ButtonID), - done
     DisableButton(ButtonID),
-    AddTile(TileID),\
+    AddTile(TileID), - done
 */
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
@@ -31,27 +31,33 @@ export function newActionAddMessage(msg: string): IActionAddMessage {
     };
 }
 
-export interface IActionAddResource {
-    actionType: "ADD_RESOURCE";
+export interface IActionSetResourceValue {
+    actionType: "SET_RESOURCE_VALUE";
     resource: string;
     amt: number;
 }
 
-export function newActionAddResource(resource: string, amt: number): IActionAddResource {
+export function newActionSetResourceValue(resource: string, amt: number): IActionSetResourceValue {
     return {
-        actionType: "ADD_RESOURCE",
+        actionType: "SET_RESOURCE_VALUE",
         resource: resource,
         amt: amt
     }
 }
 
-export interface IActionAddResourceDelta {
-    actionType: "ADD_RESOURCE_DELTA"
+export interface IActionSetResourceDelta {
+    actionType: "SET_RESOURCE_DELTA";
     resource: string;
     delta: number;
 }
 
-// TODO ActionAddResourceDelta
+export function newActionSetResourceDelta(resource: string, delta: number): IActionSetResourceDelta {
+    return {
+        actionType: "SET_RESOURCE_DELTA",
+        resource: resource,
+        delta: delta,
+    }
+}
 
 export interface IActionAddTile {
     actionType: "ADD_TILE";
@@ -81,4 +87,4 @@ export function newActionWait(duration: number): IActionWait {
     };
 }
 
-export type Action = IActionAddMessage | IActionAddResource | IActionAddTile | IActionNoop | IActionWait;
+export type Action = IActionAddMessage | IActionSetResourceDelta | IActionSetResourceValue | IActionAddTile | IActionNoop | IActionWait;

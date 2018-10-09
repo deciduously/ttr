@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { Action, newActionWait, newActionAddTile } from "./ActionModel";
+import { Action, newActionAddTile } from "./ActionModel";
 import ButtonModel from "./ButtonModel";
 import PlayerModel from "./PlayerModel";
 import ResourceModel from "./ResourceModel";
@@ -14,14 +14,18 @@ export default class GameModel {
     private buttons: ButtonModel[];
     private messages: string[];
     constructor(id: string, name: string, currentTile: number, chutzpah: number) {
+        // first, stuff we're passed in
         this.id = id;
         this.player = new PlayerModel(name, chutzpah, currentTile);
+
+        // Everything else starts empty
         this.world = [];
         this.messages = [];
         this.buttons = [];
         this.elapsedTime = 0;
         this.resources = [];
 
+        // And we add the first tile
         this.applyAction(newActionAddTile(shipTile));
     }
     get currentTime(): number {
@@ -41,8 +45,16 @@ export default class GameModel {
     // big ol' reducer, redux-style
     public applyAction(a: Action) {
         switch (a.actionType) {
-            case "ADD_MESSAGE": { this.messages.push(a.message); break; }
-            case "ADD_RESOURCE": {
+            case "ADD_MESSAGE": {
+                this.messages.push(a.message);
+                break;
+            }
+            case "SET_RESOURCE_DELTA": {
+                this.resources.forEach((r) =>
+                    r.name === a.resource ? r.setDelta(a.delta) : r);
+                break;
+            }
+            case "SET_RESOURCE_VALUE": {
                 this.resources.push(new ResourceModel(a.resource, a.amt));
                 break;
             }
