@@ -7,12 +7,12 @@ import TileModel, { shipTile } from "./TileModel";
 
 export default class GameModel {
     public player: PlayerModel;
-    @observable public resources: ResourceModel[];
-    @observable public world: TileModel[];
+    public resources: ResourceModel[];
+    public world: TileModel[];
     private id: string;
     @observable private elapsedTime: number;
-    @observable private buttons: ButtonModel[];
-    @observable private messages: string[];
+    private buttons: ButtonModel[];
+    private messages: string[];
     constructor(id: string, name: string, currentTile: number, chutzpah: number) {
         this.id = id;
         this.player = new PlayerModel(name, chutzpah, currentTile);
@@ -24,22 +24,22 @@ export default class GameModel {
 
         this.applyAction(newActionAddTile(shipTile));
     }
-    @computed get currentTime(): number {
+    get currentTime(): number {
         return this.elapsedTime;
     }
-    @computed get visibleButtons(): ButtonModel[] {
+    get visibleButtons(): ButtonModel[] {
         return this.buttons;
     }
-    @computed get messagesLength(): number {
+    get messagesLength(): number {
         return this.messages.length;
     }
-    @computed get lastFifteenMessages(): string[] {
+    get lastFifteenMessages(): string[] {
         const len = this.messagesLength;
         const startIdx = (len <= 15) ? 0 : len - 15;
         return this.messages.slice(startIdx, len);
     }
     // big ol' reducer, redux-style
-    @action public applyAction(a: Action) {
+    public applyAction(a: Action) {
         switch (a.actionType) {
             case "ADD_MESSAGE": { this.messages.push(a.message); break; }
             case "ADD_RESOURCE": {

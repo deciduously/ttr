@@ -1,4 +1,4 @@
-import { Action, newActionWait, newActionAddResource } from "./ActionModel";
+import { Action, newActionWait, newActionAddResource, newActionAddMessage } from "./ActionModel";
 import ButtonModel from "./ButtonModel";
 
 // A Tile carries with it several things:
@@ -19,4 +19,10 @@ export default class TileModel {
     }
 }
 
-export const shipTile = new TileModel(0, "Ship", [newActionAddResource("Oxygen", 100)], [new ButtonModel([newActionWait(1)], "Wait one second")]);
+export const shipTile =
+    new TileModel(
+        0,
+        "Ship",
+        [newActionAddResource("Oxygen", 100), newActionAddMessage("Ah shit, you've crashed.")],
+        [new ButtonModel([newActionWait(1)], "Wait one second")]
+    );
