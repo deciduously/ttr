@@ -1,17 +1,20 @@
 import { action, computed, observable } from "mobx";
 import { Action, newActionAddTile } from "./ActionModel";
-import ButtonModel from "./ButtonModel";
+import { ButtonModel, ButtonsModel } from "./ButtonModel";
 import PlayerModel from "./PlayerModel";
 import ResourceModel from "./ResourceModel";
 import TileModel, { shipTile } from "./TileModel";
+import TimeModel from "./TimeModel";
+import { EffectModel } from "./EffectModel";
 
 export default class GameModel {
     public player: PlayerModel;
     public resources: ResourceModel[];
     public world: TileModel[];
     private id: string;
-    @observable private elapsedTime: number;
-    private buttons: ButtonModel[];
+    @observable private effects: EffectModel[];
+    @observable private gameTime: TimeModel;
+    public buttons: ButtonsModel;
     private messages: string[];
     constructor(id: string, name: string, currentTile: number, chutzpah: number) {
         // first, stuff we're passed in
@@ -21,18 +24,16 @@ export default class GameModel {
         // Everything else starts empty
         this.world = [];
         this.messages = [];
-        this.buttons = [];
-        this.elapsedTime = 0;
+        this.effects = [];
+        this.buttons = new ButtonsModel;
+        this.gameTime = new TimeModel;
         this.resources = [];
 
         // And we add the first tile
         this.applyAction(newActionAddTile(shipTile));
     }
-    get currentTime(): number {
-        return this.elapsedTime;
-    }
-    get visibleButtons(): ButtonModel[] {
-        return this.buttons;
+    @computed get currentTime(): number {
+        return this.gameTime.time;
     }
     get messagesLength(): number {
         return this.messages.length;
@@ -42,11 +43,29 @@ export default class GameModel {
         const startIdx = (len <= 15) ? 0 : len - 15;
         return this.messages.slice(startIdx, len);
     }
-    // big ol' reducer, redux-style
+    // big ol' reducer, redux-style?
+    // i guess it's a hard habit to break
     public applyAction(a: Action) {
         switch (a.actionType) {
+            case "ADD_EFFECT": {
+                a.effect.activateActions.forEach(action => {
+                    this.applyAction(action);
+                });
+                this.effects.push(a.effect);
+                break;
+            }
             case "ADD_MESSAGE": {
                 this.messages.push(a.message);
+                break;
+            }
+            case "REMOVE_EFFECT": {
+                this.effects.forEach((eff) => {
+                    if (eff.name === a.name) {
+                        eff.deactivateActions.forEach(action => {
+                            this.applyAction(action);
+                        });
+                    }
+                });
                 break;
             }
             case "SET_RESOURCE_DELTA": {
@@ -60,7 +79,7 @@ export default class GameModel {
             }
             case "ADD_TILE": {
                 a.tile.actions.forEach((a) => this.applyAction(a));
-                a.tile.buttons.map((b) => this.buttons.push(b));
+                a.tile.buttons.map((b) => this.buttons.addButton(b));
                 this.world.push(a.tile);
                 break;
             };
@@ -73,8 +92,19 @@ export default class GameModel {
             };
         }
     }
+    @action public applyButton(bId: number) {
+        this.buttons.availableButtons.forEach((b) => {
+            if (bId === b.id) {
+                console.log("clicking button" + b.text);
+                b.actions.forEach((a) => this.applyAction(a));
+                b.toggle_active();
+            }
+        });
+    }
     @action private tick() {
-        this.elapsedTime += 1;
-        this.resources.forEach((r) => r.tick());
+        this.gameTime.tick();
+        for (var i = 0; i < this.gameTime.delta; i++) {
+            this.resources.forEach((r) => r.tick());
+        }
     }
 }

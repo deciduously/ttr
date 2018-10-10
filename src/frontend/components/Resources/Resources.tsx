@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import ResourceModel from "../../store/ResourceModel";
+import ResourceModel from "../../store/models/ResourceModel";
 import "./Resources.css";
 
 export interface IResourcesProps {

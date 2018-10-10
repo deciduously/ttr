@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import PlayerModel from "../../store/PlayerModel";
+import PlayerModel from "../../store/models/PlayerModel";
 import "./Player.css";
 
 export interface IPlayerProps {

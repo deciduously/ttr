@@ -1,21 +1,34 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import GameModel from "../../store/GameModel";
+import { ButtonsModel } from "../../store/models/ButtonModel";
 import "./Controls.css";
 
 export interface IControlsProps {
-    game: GameModel;
+    buttons: ButtonsModel;
+    buttonClicked: (number) => void;
 }
 
 @observer
 export default class Controls extends React.Component<IControlsProps> {
+
     public render() {
         return (
-            <div className="controls">
-                <span className="elapsedTime">{"Elapsed time: " + this.props.game.currentTime}</span>
-                {this.props.game.visibleButtons.map((b) =>
-                    <button key={b.text} onClick={(_) => this.props.game.applyAction(b.actions[0])}>{b.text}</button>,
-                )}
+            <div className="control-panel">
+                <div className="controls">
+                    <h4>Available Actions</h4>
+                    {this.props.buttons.availableButtons.map((b) => {
+                        let buttonClickedEvent = (_event) => this.props.buttonClicked(b.id);
+                        return (
+                            <button key={b.id} onClick={buttonClickedEvent}>{b.text}</button>
+                        );
+                    })}
+                </div>
+                <div className="active-actions">
+                    <h4>Active Actions</h4>
+                    {this.props.buttons.activeButtons.map((b) => {
+                        <div key={b.id}>{b.text}</div>
+                    })}
+                </div>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import * as React from "react";
-import { AppStore, errorGame } from "../../store/AppStore";
+import { AppStore, errorGame } from "../../store";
 import GameWindow from "../GameWindow/GameWindow";
 import NewGame from "../NewGame/NewGame";
 

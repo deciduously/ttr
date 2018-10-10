@@ -1,3 +1,4 @@
+import { EffectModel } from "./EffectModel";
 import TileModel from "./TileModel";
 
 /*
@@ -18,6 +19,18 @@ An Action will
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const NOOP = "NOOP";
 export const WAIT = "WAIT";
+
+export interface IActionAddEffect {
+    actionType: "ADD_EFFECT";
+    effect: EffectModel;
+}
+
+export function newActionAddEffect(e: EffectModel): IActionAddEffect {
+    return {
+        actionType: "ADD_EFFECT",
+        effect: e,
+    }
+}
 
 export interface IActionAddMessage {
     actionType: "ADD_MESSAGE";
@@ -75,6 +88,18 @@ export interface IActionNoop {
     actionType: "NOOP";
 }
 
+export interface IActionRemoveEffect {
+    actionType: "REMOVE_EFFECT";
+    name: string;
+}
+
+export function newActionRemoveEffect(s: string): IActionRemoveEffect {
+    return {
+        actionType: "REMOVE_EFFECT",
+        name: s,
+    }
+}
+
 export interface IActionWait {
     actionType: "WAIT";
     seconds: number;
@@ -87,4 +112,12 @@ export function newActionWait(duration: number): IActionWait {
     };
 }
 
-export type Action = IActionAddMessage | IActionSetResourceDelta | IActionSetResourceValue | IActionAddTile | IActionNoop | IActionWait;
+export type Action
+    = IActionAddEffect
+    | IActionAddMessage
+    | IActionSetResourceDelta
+    | IActionSetResourceValue
+    | IActionAddTile
+    | IActionNoop
+    | IActionRemoveEffect
+    | IActionWait;

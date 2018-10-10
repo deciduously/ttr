@@ -1,5 +1,6 @@
-import { Action, newActionWait, newActionSetResourceValue, newActionSetResourceDelta, newActionAddMessage } from "./ActionModel";
-import ButtonModel from "./ButtonModel";
+import { Action, newActionAddEffect, newActionAddMessage } from "./ActionModel";
+import { ButtonModel, Wait, FixTank } from "./ButtonModel";
+import { LeakyTank } from "./EffectModel";
 
 // A Tile carries with it several things:
 // A set of Actions to trigger when it's added to the game
@@ -23,6 +24,6 @@ export const shipTile =
     new TileModel(
         0,
         "Ship",
-        [newActionSetResourceValue("Oxygen", 100), newActionSetResourceDelta("Oxygen", -1), newActionAddMessage("Ah shit, you've crashed.")],
-        [new ButtonModel([newActionWait(1)], "Wait one second")]
+        [newActionAddEffect(LeakyTank), newActionAddMessage("Ah shit, you've crashed.")],
+        [Wait(30), Wait(10), Wait(2), FixTank]
     );

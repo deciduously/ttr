@@ -68,13 +68,11 @@ fn new_game((name, state): (Path<String>, State<AppState>)) -> FutureResponse<Ht
         .db
         .send(CreateGame {
             name: name.into_inner(),
-        })
-        .from_err()
+        }).from_err()
         .and_then(|res| match res {
             Ok(game) => Ok(HttpResponse::Ok().json(game)),
             Err(_) => Ok(HttpResponse::InternalServerError().into()),
-        })
-        .responder()
+        }).responder()
 }
 
 fn serve() -> Result<(), String> {
@@ -100,18 +98,14 @@ fn serve() -> Result<(), String> {
                         .send_wildcard()
                         .allowed_methods(vec!["GET"])
                         .max_age(3600)
-                        // async handler, returning Box<Future<Item=HttpResponse, Error=actix_web::Error>>
                         .resource("/new/{name}", |r| r.route().with(new_game))
                         .register()
                 }
-            })
-            .handler(
+            }).handler(
                 "/",
                 StaticFiles::index_file(StaticFiles::new("./dist/").unwrap(), "index.html"),
-            )
-            .middleware(middleware::Logger::default())
-    })
-    .bind(url)
+            ).middleware(middleware::Logger::default())
+    }).bind(url)
     .unwrap()
     .start();
     info!("Server initialized at {}", url);

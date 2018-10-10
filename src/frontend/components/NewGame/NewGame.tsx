@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppStore } from "../../store/AppStore";
+import { AppStore } from "../../store";
 
 export interface INewGameProps {
     store: AppStore;

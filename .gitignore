@@ -2,4 +2,6 @@
 .env
 /node_modules
 **/*.bs.js
-/dist/bundle.js
+/dist
+**/*.br
+*.log

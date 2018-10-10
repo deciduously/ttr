@@ -10,8 +10,13 @@
     "removeComments": true,
     "sourceMap": true,
     "jsx": "react",
-    //"jsxFactory": "h", // still good to have? not sure
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ]
   },
+  "moduleRsolution": "node",
   "include": [
     "**/*.ts",
     "**/*.tsx"

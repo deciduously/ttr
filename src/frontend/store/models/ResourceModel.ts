@@ -3,7 +3,7 @@ import { action, observable } from "mobx";
 export default class ResourceModel {
     public name: string;
     @observable public value: number;
-    @observable private delta: number; // is this how I wanna do this?  lets try it.
+    @observable private delta: number;
     constructor(name: string, value: number) {
         this.name = name;
         this.value = value;
@@ -19,3 +19,18 @@ export default class ResourceModel {
         this.delta = n;
     }
 }
+
+export interface IResourceOxygen {
+    resourceType: "OXYGEN";
+    resource: ResourceModel;
+}
+
+export interface IResourcePower {
+    resourceTyle: "POWER";
+    resource: ResourceModel
+}
+
+export type Resource
+    =
+    IResourceOxygen
+    | IResourcePower;
