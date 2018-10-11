@@ -16,12 +16,12 @@ const GameWindow = observer((props: IGameWindowProps) => {
         <div className="gameWindow">
             <div className="container">
                 <span className="elapsedTime">{"Elapsed time: " + props.game.currentTime}</span>
-                <Player player={props.game.player} />
-                <Resources resources={props.game.resources} />
-                <Controls buttons={props.game.buttons} buttonClicked={(bId) => props.game.applyButton(bId)} />
+                <div className="stats-container">
+                    <Player player={props.game.player} />
+                    <Resources resources={props.game.resources} />
+                    <Controls buttons={props.game.buttons} buttonClicked={(bId) => props.game.applyButton(bId)} />
+                </div>
                 <Map tiles={props.game.world} currentTile={props.game.player.currentTile} />
-            </div>
-            <div className="container">
                 <Messages messages={props.game.lastFifteenMessages} />
             </div>
         </div>
