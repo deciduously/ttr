@@ -11,23 +11,21 @@ import "./GameWindow.css";
 export interface IGameWindowProps {
     game: GameModel;
 }
-
-@observer
-export default class GameWindow extends React.Component<IGameWindowProps> {
-    public render() {
-        return (
-            <div className="gameWindow">
-                <div className="container">
-                    <span className="elapsedTime">{"Elapsed time: " + this.props.game.currentTime}</span>
-                    <Player player={this.props.game.player} />
-                    <Resources resources={this.props.game.resources} />
-                    <Controls buttons={this.props.game.buttons} buttonClicked={(bId) => this.props.game.applyButton(bId)} />
-                    <Map tiles={this.props.game.world} currentTile={this.props.game.player.currentTile} />
-                </div>
-                <div className="container">
-                    <Messages messages={this.props.game.lastFifteenMessages} />
-                </div>
+const GameWindow = observer((props: IGameWindowProps) => {
+    return (
+        <div className="gameWindow">
+            <div className="container">
+                <span className="elapsedTime">{"Elapsed time: " + props.game.currentTime}</span>
+                <Player player={props.game.player} />
+                <Resources resources={props.game.resources} />
+                <Controls buttons={props.game.buttons} buttonClicked={(bId) => props.game.applyButton(bId)} />
+                <Map tiles={props.game.world} currentTile={props.game.player.currentTile} />
             </div>
-        );
-    }
-}
+            <div className="container">
+                <Messages messages={props.game.lastFifteenMessages} />
+            </div>
+        </div>
+    );
+});
+
+export default GameWindow;

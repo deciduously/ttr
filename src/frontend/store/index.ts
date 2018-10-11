@@ -1,5 +1,7 @@
 import { action, observable } from "mobx";
 import GameModel from "./models/GameModel";
+import { newActionAddTile } from "./models/ActionModel";
+import { shipTile } from "./models/TileModel";
 
 export class AppStore {
     @observable public game?: GameModel;
@@ -15,6 +17,7 @@ export class AppStore {
                 throw new Error("Network response was not ok");
             }).then((r) => {
                 this.game = new GameModel(r.id, r.playername, r.currenttile, r.chutzpah);
+                this.game.applyAction(newActionAddTile(shipTile));
             }).catch((e) => {
                 this.game = errorGame;
             });

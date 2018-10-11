@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import * as React from "react";
 import TileModel from "../../store/models/TileModel";
 import "./Map.css";
@@ -14,12 +15,12 @@ export interface IMapProps {
     currentTile: number;
 }
 
-export default class Map extends React.Component<IMapProps> {
-    public render() {
-        return (
-            <div className="Map">
-                <p>{"Standing on tile: " + this.props.currentTile}</p>
-            </div>
-        );
-    }
-}
+const Map = observer((props: IMapProps) => {
+    return (
+        <div className="Map">
+            <p>{"Standing on tile: " + props.currentTile}</p>
+        </div>
+    );
+});
+
+export default Map;

@@ -1,15 +1,15 @@
 import { action, computed, observable } from "mobx";
-import { Action, newActionAddTile } from "./ActionModel";
-import { ButtonModel, ButtonsModel } from "./ButtonModel";
+import { Action, newActionAddTile, newActionSetResourceValue } from "./ActionModel";
+import { ButtonsModel } from "./ButtonModel";
 import PlayerModel from "./PlayerModel";
-import ResourceModel from "./ResourceModel";
+import ResourceModel, { newResource } from "./ResourceModel";
 import TileModel, { shipTile } from "./TileModel";
 import TimeModel from "./TimeModel";
 import { EffectModel } from "./EffectModel";
 
 export default class GameModel {
     public player: PlayerModel;
-    public resources: ResourceModel[];
+    @observable public resources: ResourceModel[];
     public world: TileModel[];
     private id: string;
     @observable private effects: EffectModel[];
@@ -28,9 +28,6 @@ export default class GameModel {
         this.buttons = new ButtonsModel;
         this.gameTime = new TimeModel;
         this.resources = [];
-
-        // And we add the first tile
-        this.applyAction(newActionAddTile(shipTile));
     }
     @computed get currentTime(): number {
         return this.gameTime.time;
@@ -46,6 +43,7 @@ export default class GameModel {
     // big ol' reducer, redux-style?
     // i guess it's a hard habit to break
     public applyAction(a: Action) {
+        console.log(a.actionType);
         switch (a.actionType) {
             case "ADD_EFFECT": {
                 a.effect.activateActions.forEach(action => {
@@ -68,13 +66,32 @@ export default class GameModel {
                 });
                 break;
             }
+            case "ADD_RESOURCE_DELTA": {
+                this.resources.forEach((r) =>
+                    r.name === a.resource.resourceType ? r.adjustDelta(a.resource.resource.getValue) : r
+                );
+                break;
+            }
             case "SET_RESOURCE_DELTA": {
                 this.resources.forEach((r) =>
-                    r.name === a.resource ? r.setDelta(a.delta) : r);
+                    r.name === a.resource.resourceType ? r.setDelta(a.resource.resource.getValue) : r);
+                break;
+            }
+            case "ADD_RESOURCE_VALUE": {
+                var need_to_add = true;
+                this.resources.forEach((e) => {
+                    if (e.name === a.resource.resourceType) {
+                        need_to_add = false;
+                        e.adjustValue(a.resource.resource.getValue);
+                    }
+                });
+                if (need_to_add) {
+                    this.applyAction(newActionSetResourceValue(a.resource));
+                }
                 break;
             }
             case "SET_RESOURCE_VALUE": {
-                this.resources.push(new ResourceModel(a.resource, a.amt));
+                this.resources.push(a.resource.resource);
                 break;
             }
             case "ADD_TILE": {
@@ -95,7 +112,6 @@ export default class GameModel {
     @action public applyButton(bId: number) {
         this.buttons.availableButtons.forEach((b) => {
             if (bId === b.id) {
-                console.log("clicking button" + b.text);
                 b.actions.forEach((a) => this.applyAction(a));
                 b.toggle_active();
             }

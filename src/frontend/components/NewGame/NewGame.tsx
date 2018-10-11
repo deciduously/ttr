@@ -1,3 +1,5 @@
+import { action, computed, observable } from "mobx";
+import { observer } from "mobx-react";
 import * as React from "react";
 import { AppStore } from "../../store";
 
@@ -5,15 +7,20 @@ export interface INewGameProps {
     store: AppStore;
 }
 
-interface INewGameState {
-    newPlayerName: string;
-}
-
-export default class NewGame extends React.Component<INewGameProps, INewGameState> {
+@observer
+export default class NewGame extends React.Component<INewGameProps> {
+    @observable private newPlayerName: string = "";
+    @computed private get getPlayerName(): string {
+        return this.newPlayerName;
+    }
+    @action private setPlayerName = (s: string) => this.newPlayerName = s;
     constructor(props: INewGameProps) {
         super(props);
+        this.setPlayerName("Super Cool Space Name");
+    }
 
-        this.state = { newPlayerName: "Super Cool Space Name" };
+    @action private handleChange(e) {
+        this.setPlayerName(e.target.value);
     }
 
     public render() {
@@ -22,15 +29,13 @@ export default class NewGame extends React.Component<INewGameProps, INewGameStat
                 <input
                     type="text"
                     id="newPlayerName"
-                    value={this.state.newPlayerName}
-                    onInput={this.setPlayerName}>
+                    value={this.getPlayerName}
+                    onChange={(e) => this.handleChange(e)}>
                 </input>
-                <button onClick={(_) => this.props.store.newGame(this.state.newPlayerName)}>
-                    {"New Game for player " + this.state.newPlayerName}
+                <button onClick={(_) => this.props.store.newGame(this.getPlayerName)}>
+                    {"New Game for player " + this.getPlayerName}
                 </button>
             </div >
         );
     }
-
-    private setPlayerName = (e) => this.setState({ newPlayerName: e.target.value });
 }

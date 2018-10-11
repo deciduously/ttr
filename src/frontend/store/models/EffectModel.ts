@@ -1,4 +1,5 @@
-import { Action, newActionAddMessage, newActionSetResourceDelta, newActionSetResourceValue } from "./ActionModel";
+import { Action, newActionAddMessage, newActionAddResourceDelta, newActionAddResourceValue } from "./ActionModel";
+import { newResource } from "./ResourceModel";
 
 export class EffectModel {
     public name: string;
@@ -14,6 +15,6 @@ export class EffectModel {
 export const LeakyTank =
     new EffectModel(
         "Leaky Tank",
-        [newActionSetResourceValue("Oxygen", 100), newActionSetResourceDelta("Oxygen", -1), newActionAddMessage("Oxygen Tank Leaking!!")],
-        [newActionSetResourceDelta("Oxygen", +1), newActionAddMessage("Tank repaired!")]
+        [newActionAddResourceValue(newResource("OXYGEN", 100)), newActionAddResourceDelta(newResource("OXYGEN", -1)), newActionAddMessage("Oxygen Tank Leaking!!")],
+        [newActionAddResourceDelta(newResource("OXYGEN", 1)), newActionAddMessage("Tank repaired!")]
     );

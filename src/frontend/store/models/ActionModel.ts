@@ -1,19 +1,14 @@
 import { EffectModel } from "./EffectModel";
+import { Resource } from "./ResourceModel";
 import TileModel from "./TileModel";
 
 /*
 An Action will
-    AddMessage(String), - done
     SetBoolFlag(BoolFlag),
     ClearBoolFlag(BoolFlag),
-    SetResourceValue(Resource, i64), - done
-    AddResourceValue(Resource, i64),
-    AddResourceDelta(Resource, i64), - done as Set
     //SetIntFlag(IntFlag, i64),
     //SetFloatFlag(FloatFlag, i64),
-    EnableButton(ButtonID), - done
     DisableButton(ButtonID),
-    AddTile(TileID), - done
 */
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
@@ -44,31 +39,51 @@ export function newActionAddMessage(msg: string): IActionAddMessage {
     };
 }
 
-export interface IActionSetResourceValue {
-    actionType: "SET_RESOURCE_VALUE";
-    resource: string;
-    amt: number;
+export interface IActionAddResourceValue {
+    actionType: "ADD_RESOURCE_VALUE";
+    resource: Resource;
 }
 
-export function newActionSetResourceValue(resource: string, amt: number): IActionSetResourceValue {
+export function newActionAddResourceValue(resource: Resource): IActionAddResourceValue {
+    return {
+        actionType: "ADD_RESOURCE_VALUE",
+        resource: resource,
+    }
+}
+
+export interface IActionSetResourceValue {
+    actionType: "SET_RESOURCE_VALUE";
+    resource: Resource;
+}
+
+export function newActionSetResourceValue(resource: Resource): IActionSetResourceValue {
     return {
         actionType: "SET_RESOURCE_VALUE",
         resource: resource,
-        amt: amt
+    }
+}
+
+export interface IActionAddResourceDelta {
+    actionType: "ADD_RESOURCE_DELTA";
+    resource: Resource;
+}
+
+export function newActionAddResourceDelta(resource: Resource): IActionAddResourceDelta {
+    return {
+        actionType: "ADD_RESOURCE_DELTA",
+        resource: resource,
     }
 }
 
 export interface IActionSetResourceDelta {
     actionType: "SET_RESOURCE_DELTA";
-    resource: string;
-    delta: number;
+    resource: Resource;
 }
 
-export function newActionSetResourceDelta(resource: string, delta: number): IActionSetResourceDelta {
+export function newActionSetResourceDelta(resource: Resource): IActionSetResourceDelta {
     return {
         actionType: "SET_RESOURCE_DELTA",
         resource: resource,
-        delta: delta,
     }
 }
 
@@ -115,6 +130,8 @@ export function newActionWait(duration: number): IActionWait {
 export type Action
     = IActionAddEffect
     | IActionAddMessage
+    | IActionAddResourceDelta
+    | IActionAddResourceValue
     | IActionSetResourceDelta
     | IActionSetResourceValue
     | IActionAddTile

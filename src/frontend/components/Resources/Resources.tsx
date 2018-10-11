@@ -12,7 +12,7 @@ const Resources = observer((props: IResourcesProps) =>
         <div className="resources-header">Resources</div>
         <div className="resources-container">
             {props.resources.map((r) =>
-                <div className="resource" key={r.name}>{r.name + " - " + r.value}</div>
+                <div className="resource" key={r.name}>{r.name + " - " + r.getValue}</div>
             )}
         </div>
     </div>)
