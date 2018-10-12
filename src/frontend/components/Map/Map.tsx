@@ -11,16 +11,16 @@ import "./Map.css";
 // render the squres first to see how much space you have
 
 export interface IMapProps {
-    tiles: TileModel[];
-    currentTile: number;
+  tiles: TileModel[];
+  currentTile: number;
 }
 
 const Map = observer((props: IMapProps) => {
-    return (
-        <div className="Map">
-            <p>{"Standing on tile: " + props.currentTile}</p>
-        </div>
-    );
+  return (
+    <div className="Map">
+      <p>{"Standing on tile: " + props.currentTile}</p>
+    </div>
+  );
 });
 
 export default Map;

@@ -5,20 +5,20 @@ import GameWindow from "../GameWindow/GameWindow";
 import NewGame from "../NewGame/NewGame";
 
 export interface IAppProps {
-    store: AppStore;
+  store: AppStore;
 }
 
 @observer
 export default class App extends React.Component<IAppProps> {
-    public render() {
-        return (
-            <div>
-                <h1>Take the ROCK</h1>
-                <h2>The BEGINNING</h2>
-                {(this.props.store.game == null)
-                    ? <NewGame store={this.props.store} />
-                    : <GameWindow game={this.props.store.game || errorGame} />}
-            </div>
-        );
-    }
+  public render() {
+    return (
+      <div>
+        <h1>Take the ROCK</h1>
+        <h2>The BEGINNING</h2>
+        {(this.props.store.game == null)
+          ? <NewGame store={this.props.store} />
+          : <GameWindow game={this.props.store.game || errorGame} />}
+      </div>
+    );
+  }
 }

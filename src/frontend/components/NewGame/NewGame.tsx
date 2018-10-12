@@ -4,38 +4,38 @@ import * as React from "react";
 import { AppStore } from "../../store";
 
 export interface INewGameProps {
-    store: AppStore;
+  store: AppStore;
 }
 
 @observer
 export default class NewGame extends React.Component<INewGameProps> {
-    @observable private newPlayerName: string = "";
-    @computed private get getPlayerName(): string {
-        return this.newPlayerName;
-    }
-    @action private setPlayerName = (s: string) => this.newPlayerName = s;
-    constructor(props: INewGameProps) {
-        super(props);
-        this.setPlayerName("Super Cool Space Name");
-    }
+  @computed private get getPlayerName(): string {
+    return this.newPlayerName;
+  }
+  @observable private newPlayerName: string = "";
+  constructor(props: INewGameProps) {
+    super(props);
+    this.setPlayerName("Super Cool Space Name");
+  }
 
-    @action private handleChange(e) {
-        this.setPlayerName(e.target.value);
-    }
+  public render() {
+    return (
+      <div>
+        <input
+          type="text"
+          id="newPlayerName"
+          value={this.getPlayerName}
+          onChange={(e) => this.handleChange(e)}>
+        </input>
+        <button onClick={(_) => this.props.store.newGame(this.getPlayerName)}>
+          {"New Game for player " + this.getPlayerName}
+        </button>
+      </div >
+    );
+  }
+  @action private setPlayerName = (s: string) => this.newPlayerName = s;
 
-    public render() {
-        return (
-            <div>
-                <input
-                    type="text"
-                    id="newPlayerName"
-                    value={this.getPlayerName}
-                    onChange={(e) => this.handleChange(e)}>
-                </input>
-                <button onClick={(_) => this.props.store.newGame(this.getPlayerName)}>
-                    {"New Game for player " + this.getPlayerName}
-                </button>
-            </div >
-        );
-    }
+  @action private handleChange(e) {
+    this.setPlayerName(e.target.value);
+  }
 }
