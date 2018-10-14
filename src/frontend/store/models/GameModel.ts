@@ -135,11 +135,13 @@ export default class GameModel {
   private checkButtons() {
     this.buttons.activeButtons.forEach((b) => {
       if (!b.is_active) { return; }
-      if (this.gameTime.millis - b.clickedAt === 0) {
+      if (b.timeCost === 0) {
         b.completeActions.forEach((a) => {
           this.applyAction(a);
         });
         this.buttons.removeButton(b.id);
+      } else {
+        b.timeCost -= 10;
       }
     });
   }

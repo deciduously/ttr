@@ -12,7 +12,6 @@ const Controls = observer((props: IControlsProps) => {
   return (
     <div className="control-panel">
       <div className="controls">
-        <h4>Available Actions</h4>
         {props.buttons.availableButtons.map((b) => {
           const buttonClickedEvent = (_) => props.buttonClicked(b.id);
           return (
@@ -20,12 +19,9 @@ const Controls = observer((props: IControlsProps) => {
           );
         })}
       </div>
-      <div className="active-actions">
-        <h4>Active Actions</h4>
-        {props.buttons.activeButtons.map((b) => (
-          <div key={b.id}>{b.text}<br />{"Takes " + b.timeCost / 1000 + " seconds"}</div>
-        ))}
-      </div>
+      {props.buttons.activeButtons.map((b) => (
+        <div key={b.id}>{b.text}<br />{"Time left: " + Math.ceil(b.timeCost / 1000) + " seconds"}</div>
+      ))}
     </div>
   );
 });

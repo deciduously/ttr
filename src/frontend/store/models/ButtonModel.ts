@@ -14,7 +14,7 @@ export default class ButtonModel {
   public engageActions: Action[];
   public completeActions: Action[];
   public text: string;
-  public timeCost: number;
+  @observable public timeCost: number;
   @observable public clickedAt: number;
   @observable private active: boolean;
   constructor(engageActions: Action[], completeActions: Action[], text: string, timeCost: number) {
@@ -27,7 +27,6 @@ export default class ButtonModel {
     this.clickedAt = 0;
     this.timeCost = timeCost;
   }
-
   @action public toggle_active(now: number) {
     this.active = !this.active;
     this.clickedAt = now;
