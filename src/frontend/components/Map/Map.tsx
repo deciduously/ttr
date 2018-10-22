@@ -13,14 +13,34 @@ import "./Map.css";
 export interface IMapProps {
   tiles: TileModel[];
   currentTile: number;
+  movementKeyPressed: (n) => void;
 }
 
-const Map = observer((props: IMapProps) => {
-  return (
-    <div className="Map">
-      <p>{"Standing on tile: " + props.currentTile}</p>
-    </div>
-  );
-});
-
-export default Map;
+@observer
+export default class Map extends React.Component<IMapProps> {
+  public render() {
+    return (
+      <div className="Map" onKeyPress={this.handleKeyPress} tabIndex={0}>
+        <p>{"Standing on tile: " + this.props.currentTile}</p>
+      </div>
+    );
+  }
+  private handleKeyPress = (e) => {
+    switch (e.key) {
+      case "w":
+        this.props.movementKeyPressed("MOVE_UP");
+        break;
+      case "s":
+        this.props.movementKeyPressed("MOVE_DOWN");
+        break;
+      case "a":
+        this.props.movementKeyPressed("MOVE_LEFT");
+        break;
+      case "d":
+        this.props.movementKeyPressed("MOVE_RIGHT");
+        break;
+      default:
+        break;
+    }
+  }
+}

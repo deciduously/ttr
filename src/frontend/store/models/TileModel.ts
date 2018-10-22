@@ -8,12 +8,14 @@ import { LeakyTank } from "./EffectModel";
 
 export default class TileModel {
   public name: string;
+  public mapChar: string;
   public actions: Action[];
   public buttons: ButtonModel[];
   private id: number;
-  constructor(id: number, name: string, actions: Action[], buttons: ButtonModel[]) {
+  constructor(id: number, name: string, mapChar: string, actions: Action[], buttons: ButtonModel[]) {
     this.id = id;
     this.name = name;
+    this.mapChar = mapChar;
     this.actions = actions;
     this.buttons = buttons;
   }
@@ -23,6 +25,7 @@ export const shipTile =
   new TileModel(
     0,
     "Ship",
+    "^",
     [newActionAddEffect(LeakyTank), newActionAddMessage("Ah shit, you've crashed.")],
     [FixTank],
   );

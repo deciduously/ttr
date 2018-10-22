@@ -25,7 +25,10 @@ const GameWindow = observer((props: IGameWindowProps) => {
           <Resources resources={props.game.resources} />
           <Controls buttons={props.game.buttons} buttonClicked={(bId) => props.game.applyButton(bId)} />
         </div>
-        <Map tiles={props.game.world} currentTile={props.game.player.currentTile} />
+        <Map
+          tiles={props.game.world}
+          currentTile={props.game.player.currentTile}
+          movementKeyPressed={(moveStr) => props.game.move(moveStr)} />
         <Messages messages={props.game.lastFifteenMessages} />
       </div>
     </div>

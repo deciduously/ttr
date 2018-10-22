@@ -127,6 +127,10 @@ export default class GameModel {
     });
   }
   @action
+  public move(s: string) {
+    console.log("moving: " + s);
+  }
+  @action
   public toggleRunning() {
     this.gameTime.isRunning = !this.gameTime.isRunning;
     if (this.gameTime.isRunning) { this.tick(); }
